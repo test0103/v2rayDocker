@@ -3,9 +3,8 @@
 #
 FROM abiosoft/caddy:builder as builder
 
-ARG version="0.11.1"
+ARG version="1.0.3"
 ARG plugins="git,cors,realip,expires,cache"
-
 
 RUN go get -v github.com/abiosoft/parent
 RUN VERSION=${version} PLUGINS=${plugins} ENABLE_TELEMETRY=false /bin/sh /usr/bin/builder.sh
@@ -13,15 +12,15 @@ RUN VERSION=${version} PLUGINS=${plugins} ENABLE_TELEMETRY=false /bin/sh /usr/bi
 #
 # Final stage
 #
-FROM alpine:3.8
+FROM alpine:3.11.6
 # process wrapper
-LABEL maintainer "sebs sebsclub@outlook.com"
+LABEL maintainer="llz123@outlook.com"
 
 # V2RAY
 ARG TZ="Asia/Shanghai"
 
 ENV TZ ${TZ}
-ENV V2RAY_VERSION v4.19.1 
+ENV V2RAY_VERSION v4.23.1 
 ENV V2RAY_LOG_DIR /var/log/v2ray
 ENV V2RAY_CONFIG_DIR /etc/v2ray/
 ENV V2RAY_DOWNLOAD_URL https://github.com/v2ray/v2ray-core/releases/download/${V2RAY_VERSION}/v2ray-linux-64.zip
@@ -58,7 +57,7 @@ COPY package.json /srv/package.json
 RUN  npm install
 COPY  v2ray.js /srv/v2ray.js
 
-ARG version="0.11.1"
+ARG version="1.0.3"
 LABEL caddy_version="$version"
 
 # Let's Encrypt Agreement
