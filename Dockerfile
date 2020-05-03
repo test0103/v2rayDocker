@@ -1,20 +1,15 @@
 #
 # Builder
 #
-FROM abiosoft/caddy:builder as builder
-
-ARG version="1.0.3"
-ARG plugins="git,cors,realip,expires,cache"
-
-RUN go get -v github.com/abiosoft/parent
-RUN VERSION=${version} PLUGINS=${plugins} ENABLE_TELEMETRY=false /bin/sh /usr/bin/builder.sh
-
+FROM caddy:1.0.3 as builder
 #
 # Final stage
 #
 FROM alpine:3.11.6
 # process wrapper
-LABEL maintainer="llz123@outlook.com"
+LABEL maintainer="llz123@outlook.com" \
+    version="1.0" \
+    commit="base pengchujin/v2rayDocker"
 
 # V2RAY
 ARG TZ="Asia/Shanghai"
